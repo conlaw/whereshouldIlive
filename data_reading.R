@@ -46,3 +46,4 @@ df.full3 <- df.full2[!duplicated(df.full2[1:2]),]
 
 #cast it
 df.final <- dcast(df.full3, city ~ var)
+save(df.final, file="cityData.RData")
