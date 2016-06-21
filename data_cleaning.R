@@ -29,6 +29,8 @@ df.clean <- mutate(df.clean, educationMetric = 0.7*PISA_ranking + 0.3*University
 
 df.clean2 <- select(df.clean, city, Crime_rate, Freedom_from_corruption, GDP_per_capita, Healthcare_index, Internet_access, Income_tax_level, Population_size, Spoken_languages, Weather_type, costOfLiving:educationMetric)
 
+#Make cost of living negative so smaller costOfLivings have higher scores when fed into scale
+df.clean2["costOfLiving"] <- -df.clean2["costOfLiving"]
 df.clean2[,-c(1, 9, 10)] <- lapply(df.clean2[,-c(1, 9, 10)], scale)
 
 df.clean2[45, ]$Weather_type <- "Marine West Coast Climate"
@@ -39,3 +41,9 @@ df.clean2[-c(1,9,10)] <- lapply(df.clean2[-c(1,9,10)], function(x) {
 
 df.clean2 <- as.data.frame(lapply(df.clean2, as.vector))
 
+#get latitude and longitude
+library(ggmap)
+
+latlon <- geocode(as.character(df.clean2$city), output = "latlon")
+
+df.clean3 <- cbind(df.clean2, latlon)
