@@ -27,9 +27,10 @@ shinyServer(function(input, output) {
     cities <- getCities(weights,df.subset)
     mp = NULL
     mapWorld  <- borders("world", colour = "gray50", fill = "gray50")
-    mp <- ggplot(data = cities) + mapWorld + geom_point(aes(x =Lon, y = Lat, colour = Score), size = 3) + geom_text(aes(label = City))
+    mp <- ggplot() + mapWorld + geom_point(aes(x =cities$lon, y = cities$lat, colour = cities$Score), size = 3)
+    mp
     })
   output$l1 <- renderText( 
-    input$weatype
+    "yay"
   )
 })

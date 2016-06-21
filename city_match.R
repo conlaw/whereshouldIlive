@@ -7,5 +7,5 @@ getCities <- function(weights, df.subset){
     score
   })
   scores.df <- data.frame(City = df.subset[,1], Score = scores, Lon = df.subset["lon"], Lat = df.subset["lat"])
-  tail(scores.df[sort(scores.df$Score, index.return = TRUE)$ix,])
+  tail(scores.df[sort(scores.df$Score, index.return = TRUE)$ix,], 10)
 }
