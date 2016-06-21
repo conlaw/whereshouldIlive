@@ -32,5 +32,10 @@ df.clean2 <- select(df.clean, city, Crime_rate, Freedom_from_corruption, GDP_per
 df.clean2[,-c(1, 9, 10)] <- lapply(df.clean2[,-c(1, 9, 10)], scale)
 
 df.clean2[45, ]$Weather_type <- "Marine West Coast Climate"
-df.clean2[-c(1,9,10)] <- lapply(df.clean2[-c(1,9,10)], function(x) x[is.na(x)] <- 0)
+df.clean2[-c(1,9,10)] <- lapply(df.clean2[-c(1,9,10)], function(x) {
+  x[is.na(x)] <- 0
+  x
+})
+
+df.clean2 <- as.data.frame(lapply(df.clean2, as.vector))
 
