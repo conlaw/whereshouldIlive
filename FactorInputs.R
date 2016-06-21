@@ -10,13 +10,13 @@ load("cityData.RData")
 #paste(ifelse(lalala, paste("weather_type", names(lalala), sep = "=="),""))
 #names(lalala) = unique(df.final$`Weather type`)
 sub.clim <- function(x) {
-df.clean3[which(df.clean3$Weather_type == x),]
+  df.clean3[which(df.clean3$Weather_type == x),]
 }
 
 #grab language from shiny
 #countries that have this language in data frame
-sub.lang <- function(x, data) {
-data[which(as.character(data$Spoken_Languages) == x),]
+sub.lang <- function(x, df) {
+  df[which(df$Spoken_languages == x),]
 }
 
 
