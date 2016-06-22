@@ -21,9 +21,9 @@ shinyUI(fluidPage(
   titlePanel("Where should I live?"),
   # Sidebar with a slider input for number of bins 
   fluidRow(
-    column(12, 
-           plotlyOutput("map", height = "30%", width = "50%"),
-           textOutput("l1"),
+    column(6, 
+           plotlyOutput("map")),
+    column(6, 
            plotlyOutput("barchart")),
     column(3,
            selectInput("lang",
