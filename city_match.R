@@ -7,5 +7,6 @@ getCities <- function(weights, df.subset){
     score
   })
   scores.df <- data.frame(City = df.subset[,1], Score = scores, Lon = df.subset["lon"], Lat = df.subset["lat"])
+  scores.df$Score <- (scores.df$Score - min(scores.df$Score))/(max(scores.df$Score)-min(scores.df$Score))
   tail(scores.df[sort(scores.df$Score, index.return = TRUE)$ix,], 10)
 }

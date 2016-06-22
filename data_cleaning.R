@@ -48,3 +48,4 @@ latlon <- geocode(as.character(df.clean2$city), output = "latlon")
 
 df.clean3 <- cbind(df.clean2, latlon)
 
+#population into quantiles
