@@ -11,13 +11,14 @@ library(shiny)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-  
+  theme = shinytheme("Readable"),
+
   # Application title
   titlePanel("Where should I live?"),
   # Sidebar with a slider input for number of bins 
   fluidRow(
     column(12, 
-           plotOutput("map"),
+           plotlyOutput("map"),
            textOutput("l1")),
     column(3,
            selectInput("lang",
