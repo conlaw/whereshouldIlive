@@ -16,7 +16,18 @@ sub.clim <- function(x = c(levels(factor(df.clean3$Weather_type)))) {
 #grab language from shiny
 #countries that have this language in data frame
 sub.lang <- function(x = c(levels(df.clean3$Spoken_languages)), df) {
-  df[which(df$Spoken_languages %in% x),]
+  indxs <- lapply(x, function(z) {
+   1:nrow(df) %in% grep(z, df$Spoken_languages)
+  })
+  test <- c(rep(F, nrow(df)))
+  count <- 0
+  sapply(indxs, function(y){
+    count <<- count+1
+    print(count)
+    test <<- test|y
+    
+  })
+  return(df[test,])
 }
 
 
