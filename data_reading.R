@@ -1,4 +1,5 @@
 library(httr)
+library(reshape2)
 cities <- getURL("https://api.teleport.org/api/urban_areas/")
 tmp <- fromJSON(cities)
 tmp$`_links`$`ua:item`
