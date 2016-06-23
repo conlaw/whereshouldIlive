@@ -16,6 +16,59 @@ library(dplyr)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
+  output$table <- renderDataTable({
+    df.subset <- sub.clim(input$weatype)
+    df.subset <- sub.lang(input$lang, df.subset)
+  
+   #run matches
+   weights <- c(input$sft, input$cor, input$weal, input$health, input$ntrnet,
+               input$tax, input$pop, input$col, input$ci, input$env, input$tc,
+               input$edu)
+    cities <- getCities(weights,df.subset)
+    for(i in nrow(cities):1){
+      cities$Rank[i] <- -i + nrow(cities) + 1
+    }
+    outputtab <- merge(df.clean3, cities)
+    
+    outputtab <- select(outputtab, City, Rank,Score, Spoken_languages, Climate, Crime_rate:Population_size, costOfLiving:educationMetric)
+    names(outputtab) <- c("City", "Rank", "Score", "Language(s)", "Climate", "Safety", "Freedom from Corruption", "Wealth", 
+                          "Healthcare", "Internet Access", "Tax", "Population Size", "Cost of Living", "Culture",
+                          "Environment", "Travel Connectivity", "Education")
+    if(input$sft == 0){
+      outputtab <- select(outputtab, -`Safety`)
+    }
+    if(input$cor == 0){
+      outputtab <- select(outputtab, -`Freedom from Corruption`)
+    }
+    if(input$weal == 0){
+      outputtab <- select(outputtab, -`Wealth`)
+    }
+    if(input$health == 0){
+      outputtab <- select(outputtab, -`Healthcare`)
+    }
+    if(input$ntrnet == 0){
+      outputtab <- select(outputtab, -`Internet Access`)
+    }
+    if(input$tax == 0){
+      outputtab <- select(outputtab, -`Tax`)
+    }
+    if(input$col == 0){
+      outputtab <- select(outputtab, -`Cost of Living`)
+    }
+    if(input$ci == 0){
+      outputtab <- select(outputtab, -`Culture`)
+    }
+    if(input$env == 0){
+      outputtab <- select(outputtab, -`Environment`)
+    }
+    if(input$tc == 0){
+      outputtab <- select(outputtab, -`Travel Connectivity`)
+    }
+    if(input$edu == 0){
+      outputtab <- select(outputtab, -`Education`)
+    }
+    outputtab}
+  )
   
   output$map <- renderPlotly({
     title = "World Cities"

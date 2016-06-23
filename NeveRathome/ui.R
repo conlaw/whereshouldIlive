@@ -26,7 +26,8 @@ shinyUI(fluidPage(
              radioButtons("mapOption", label = "", choices = list("Globe", "Rectangular"), inline = TRUE, width = "100%"),
              plotlyOutput("map")
              ),
-           tabPanel("Graph",plotlyOutput("barchart"))),
+           tabPanel("Graph",plotlyOutput("barchart")),
+           tabPanel("Table", dataTableOutput("table"))),
     tabsetPanel(
       tabPanel("Directions"),
       tabPanel("Language", checkboxGroupInput("lang",
