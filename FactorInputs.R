@@ -10,7 +10,7 @@ load("cityData.RData")
 #paste(ifelse(lalala, paste("weather_type", names(lalala), sep = "=="),""))
 #names(lalala) = unique(df.final$`Weather type`)
 sub.clim <- function(x = c(levels(factor(df.clean3$Weather_type)))) {
-  df.clean3[which(df.clean3$Weather_type %in% x),]
+  df.clean3[which(df.clean3$Climate %in% x),]
 }
 
 #grab language from shiny
@@ -20,10 +20,7 @@ sub.lang <- function(x = c(levels(df.clean3$Spoken_languages)), df) {
    1:nrow(df) %in% grep(z, df$Spoken_languages)
   })
   test <- c(rep(F, nrow(df)))
-  count <- 0
   sapply(indxs, function(y){
-    count <<- count+1
-    print(count)
     test <<- test|y
     
   })
