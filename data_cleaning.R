@@ -9,8 +9,12 @@ names(df.clean) <- str_replace_all(names(df.clean), " ", "_")
 
 df.clean[-c(1,39,45)] <- lapply(df.clean[-c(1,39,45)], as.numeric)
 
+#Normalise Population
+df.clean$Population_size <- log(df.clean$Population_size)
+
 #put rent index in dollars to mix into cost of living metric
 df.clean <- mutate(df.clean, Rent = Rent_index*8349.69)
+df.clean$Rent <- -(df.clean$Rent-max(df.clean$Rent)) + min(df.clean$Rent)
 
 #cost of living metric
 df.clean <- mutate(df.clean, costOfLiving = 20*A_beer + 31*A_Cappuccino + 10*A_kilogram_of_Apples + 30.5*Bread + Monthly_public_transport +
@@ -49,3 +53,4 @@ latlon <- geocode(as.character(df.clean2$city), output = "latlon")
 df.clean3 <- cbind(df.clean2, latlon)
 
 #population into quantiles
+save(df.clean3, file = "cityData2.RData")

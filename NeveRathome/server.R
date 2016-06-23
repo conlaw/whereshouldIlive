@@ -29,10 +29,17 @@ shinyServer(function(input, output) {
                  input$tax, input$pop, input$col, input$ci, input$env, input$tc,
                  input$edu)
     cities <<- getCities(weights,df.subset)
-    
+    inputMap <- input$mapOption
+    if(inputMap == "Globe"){
+      tmp <- "orthographic"
+    }
+    if(inputMap == "Rectangular"){
+      tmp <- "miller"
+    }
     g <- list(
       scope = 'world',
-      projection = list(type = 'orthographic'),
+      projection = list(type = tmp),
+      showframe = FALSE,
       showland = TRUE,
       subunitwidth = 1,
       countrywidth = 1,
@@ -56,7 +63,7 @@ shinyServer(function(input, output) {
                  input$tax, input$pop, input$col, input$ci, input$env, input$tc,
                  input$edu)
     cities <- getCities(weights,df.subset)
-    ggplotly(ggplot(cities) + geom_bar(aes(x = City, weight = Score, fill = City)))
+    ggplotly(ggplot(cities) + geom_bar(aes(x = City, weight = Score, fill = City))+ labs(y = "Score")) 
   })
   output$l1 <- renderText( 
     "yay"
