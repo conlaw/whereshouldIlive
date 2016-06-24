@@ -1,8 +1,21 @@
 body {
 margin-left: 5%;
 margin-right: 5%;
-margin-top: 2%;
+margin-top: 1.5%;
+padding: 30px;
 font-family: Open Sans;
 font-size: 24px;
 font-weight: lighter;
+}
+#dir{
+  padding-top:20px;
+}
+#lang{
+  padding-top: 20px;
+}
+#weatype{
+  padding-top: 20px;
+}
+tab-pane active{
+  padding-top: 20px;
 }

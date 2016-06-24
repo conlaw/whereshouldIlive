@@ -194,9 +194,9 @@ shinyServer(function(input, output) {
     
   )
   output$slid <- renderText(
-    "Using the sliders: Most of the sliders are used to measure how importantly you rate each criteria.
-    The following deviate from this pattern: Cost of Living returns cities with lower costs of living, Tax returns cities with lower taxes, and
-    Population returns cities with higher populations as the value on the sliders increases."
+    "Instructions: Move each slider to indicate how important a factor is to you (0 = not considered, 5 = super important!).
+   Our algorithm will return cities that perform better in the factors important to yoU! Please note: for cost of living the best scores have the lowest cost of living (so increasing the weight returns cities with
+    lower cost of living), likewise the higher the tax score, the lower the income tax level. Move the population slider to pick your ideal population size (0 = small population, 4 = large)."
   )
   output$skip <- renderText(
     "
