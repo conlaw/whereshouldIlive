@@ -5,8 +5,8 @@ getCities <- function(weights, df.subset){
     w.pop <- weights[7]
     weights2 <- weights[-7]
     score <- as.numeric(tmp)*weights2
-    score.pop <- popScorer(w.pop, x[8])
-    score <- sum(score)+score.pop
+    score.pop <- popScorer(as.numeric(w.pop), x[8])
+    score <- sum(score, na.rm = TRUE)+score.pop
     score
   })
   scores.df <- data.frame(City = df.subset[,1], Score = scores, Lon = df.subset["lon"], Lat = df.subset["lat"])
@@ -15,24 +15,28 @@ getCities <- function(weights, df.subset){
 }
 
 popScorer <- function(weight, pop){
+  w <- as.numeric(weight)
+  print(w)
+  print(class(w))
+  pop2 <- as.numeric(pop)
   weight.val <- 0
-  if(weight==0){
-    weight.val <- min(df.clean3$Population_size)
+  if(w == 0){
+    weight.val <- -2.6690 
   }
-  else if(weight == 1){
-    weight.val <- quantile(df.clean3$Population_size, 0.25)
+  if(w == 1){
+    weight.val <- -0.5685
   }
-  else if(weight == 2){
-    weight.val <- median(df.clean3$Population_size)
+  if(w == 2){
+    weight.val <- -0.1231
   }
-  else if(weight == 3){
-    weight.val <- quantile(df.clean3$Population_size, 0.75)
+  if(w == 3){
+    weight.val <- 0.6764
   }
-  else{
-    weight.val <- max(df.clean3$Population_size)
+  if(w == 4){
+    weight.val <- 2.5920
   }
-  if(pop[1]>=weight.val[1]){
-    pop <- -pop
+  if(as.numeric(pop)>=weight.val){
+    pop2 <- -1 * as.numeric(pop)
   }
-  return(3*as.numeric(pop))
+  return(3*as.numeric(pop2))
 }

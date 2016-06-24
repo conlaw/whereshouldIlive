@@ -21,6 +21,11 @@ shinyUI(fluidPage(
   titlePanel("Where should I live?"),
   # Sidebar with a slider input for number of bins 
   fluidRow(
+    tags$style(HTML("
+        .tabs-above > .nav > li[class=active] > a {
+                    background-color: #0066ff;
+                    color: #FFF;
+                    }")),
     tabsetPanel( 
            tabPanel("Map", 
              radioButtons("mapOption", label = "", choices = list("Globe", "Rectangular"), inline = TRUE, width = "100%"),
@@ -29,7 +34,7 @@ shinyUI(fluidPage(
            tabPanel("Graph",plotlyOutput("barchart")),
            tabPanel("Table", dataTableOutput("table"))),
     tabsetPanel(
-      tabPanel("Directions"),
+      tabPanel("Directions", textOutput("dir")),
       tabPanel("Language", checkboxGroupInput("lang",
                                               "Language",
                                               choices = c("Arabic", "Armenian", "Azerbaijani", "Bosnian", "Bulgarian", "Croatian",
@@ -112,9 +117,9 @@ shinyUI(fluidPage(
                                   max = 5,
                                   value = 0),
                       sliderInput("pop",
-                                  "Population",
+                                  "Population (Small to Large)",
                                   min = 0,
-                                  max = 5,
+                                  max = 4,
                                   value = 0
                       ))
       )
