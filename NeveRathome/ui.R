@@ -12,6 +12,8 @@ library(ggplot2)
 library(ggmap)
 library(plotly)
 library(shinythemes)
+load("cityData2.RData")
+
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -32,7 +34,8 @@ shinyUI(fluidPage(
              plotlyOutput("map")
              ),
            tabPanel("Graph",plotlyOutput("barchart")),
-           tabPanel("Table", dataTableOutput("table"))),
+           tabPanel("Table", dataTableOutput("table")),
+           tabPanel("Web", HTML('<iframe width=\"100%\" height=\"600\" margin =\"5%\" src=\"//www.lonelyplanet.com\" frameborder=\"0\" allowfullscreen></iframe>'))),
     tabsetPanel(
       tabPanel("Directions", textOutput("dir")),
       tabPanel("Language", checkboxGroupInput("lang",
@@ -123,8 +126,8 @@ shinyUI(fluidPage(
                                   value = 0
                       ))
       )
-    )
-  )
+    ),
+  margin = "5%")
 )
 )
 
