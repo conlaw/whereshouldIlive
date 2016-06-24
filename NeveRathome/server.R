@@ -12,7 +12,66 @@ library(ggmap)
 library(plotly)
 library(shinythemes)
 library(dplyr)
+load("cityData2.RData")
 
+sub.clim <- function(x = c(levels(factor(df.clean3$Weather_type)))) {
+  df.clean3[which(df.clean3$Climate %in% x),]
+}
+
+#grab language from shiny
+#countries that have this language in data frame
+sub.lang <- function(x = c(levels(df.clean3$Spoken_languages)), df) {
+  indxs <- lapply(x, function(z) {
+    1:nrow(df) %in% grep(z, df$Spoken_languages)
+  })
+  test <- c(rep(F, nrow(df)))
+  sapply(indxs, function(y){
+    test <<- test|y
+    
+  })
+  return(df[test,])
+}
+getCities <- function(weights, df.subset){
+  scores <- apply(df.subset, 1, FUN = function(x){
+    tmp <- x[-c(1,8,9,10,16,17,18)]
+    w.pop <- weights[7]
+    weights2 <- weights[-7]
+    score <- as.numeric(tmp)*weights2
+    score.pop <- popScorer(as.numeric(w.pop), x[8])
+    score <- sum(score, na.rm = TRUE)+score.pop
+    score
+  })
+  scores.df <- data.frame(City = df.subset[,1], Score = scores, Lon = df.subset["lon"], Lat = df.subset["lat"])
+  scores.df$Score <- (scores.df$Score - min(scores.df$Score))/(max(scores.df$Score)-min(scores.df$Score))
+  tail(scores.df[sort(scores.df$Score, index.return = TRUE)$ix,], 10)
+}
+
+popScorer <- function(weight, pop){
+  w <- as.numeric(weight)
+  print(w)
+  print(class(w))
+  pop2 <- as.numeric(pop)
+  weight.val <- 0
+  if(w == 0){
+    weight.val <- -2.6690 
+  }
+  if(w == 1){
+    weight.val <- -0.5685
+  }
+  if(w == 2){
+    weight.val <- -0.1231
+  }
+  if(w == 3){
+    weight.val <- 0.6764
+  }
+  if(w == 4){
+    weight.val <- 2.5920
+  }
+  if(as.numeric(pop)>=weight.val){
+    pop2 <- -1 * as.numeric(pop)
+  }
+  return(3*as.numeric(pop2))
+}
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -105,9 +164,11 @@ shinyServer(function(input, output) {
       subunitcolor = toRGB("white"),
       countrycolor = toRGB("white")
     )
-    plot_ly(cities, lon = lon, lat = lat,  text = City, marker = list(size = 10, color = Score, 
-            colorbar = list(yanchor = "middle", title = "Score")),
+    plot_ly(cities, lon = lon, lat = lat,  text = City, colors = "Greens",
+            marker = list(size = 10, color = Score,
+                          colorbar = list(yanchor = "middle", title = "Score")),
             hoverInfo = "text", type = 'scattergeo')  %>% layout( geo = g)   
+    
     
     })
   output$barchart <- renderPlotly({
