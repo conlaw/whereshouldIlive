@@ -186,11 +186,20 @@ shinyServer(function(input, output) {
     class(input$pop)
   )
   output$dir <- renderText( 
-    "Hello user! So you've decided to move but want some advice on where exactly you want to go. 
+    "\nHello user! So you've decided to move but want some advice on where exactly you want to go. 
     There are so many options out there it can get overwhelming but worry not! Where Should I live 
     was designed to make choosing your dream city easy. Simply tell us the languages you would like to 
     speak, the climate you would like to live in, and how important you find traits in a 
     city using the sliders provided. Happy Travels!"
     
+  )
+  output$slid <- renderText(
+    "Using the sliders: Most of the sliders are used to measure how importantly you rate each criteria.
+    The following deviate from this pattern: Cost of Living returns cities with lower costs of living, Tax returns cities with lower taxes, and
+    Population returns cities with higher populations as the value on the sliders increases."
+  )
+  output$skip <- renderText(
+    "
+   "
   )
 })

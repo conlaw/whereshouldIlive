@@ -17,7 +17,16 @@ load("cityData2.RData")
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-  theme = shinytheme("Readable"),
+
+  tags$head(
+    tags$style(HTML("
+                    @import url('//fonts.googleapis.com/css?family=Open+Sans');
+                    "))
+    ),
+   
+  includeCSS("styles.css"),
+  
+  theme = shinytheme("readable"),
 
   # Application title
   titlePanel("Where should I live?"),
@@ -27,7 +36,13 @@ shinyUI(fluidPage(
         .tabs-above > .nav > li[class=active] > a {
                     background-color: #0066ff;
                     color: #FFF;
-                    }")),
+                    }
+        #tab-8265-1{
+                    margin: 5%;
+        }            
+                    
+                    
+                    ")),
     tabsetPanel( 
            tabPanel("Map", 
              radioButtons("mapOption", label = "", choices = list("Globe", "Rectangular"), inline = TRUE, width = "100%"),
@@ -37,8 +52,8 @@ shinyUI(fluidPage(
            tabPanel("Table", dataTableOutput("table")),
            tabPanel("Web", HTML('<iframe width=\"100%\" height=\"600\" margin =\"5%\" src=\"//www.lonelyplanet.com\" frameborder=\"0\" allowfullscreen></iframe>'))),
     tabsetPanel(
-      tabPanel("Directions", textOutput("dir")),
-      tabPanel("Language", checkboxGroupInput("lang",
+      tabPanel("Directions",textOutput("dir")),
+      tabPanel("Language",  checkboxGroupInput("lang",
                                               "Language",
                                               choices = c("Arabic", "Armenian", "Azerbaijani", "Bosnian", "Bulgarian", "Croatian",
                                                           "Chinese", "Czech", "Dutch", "French", "English","Afrikaans","Zulu", "Xhosa",
@@ -50,11 +65,12 @@ shinyUI(fluidPage(
                                                           "Thai", "Turkish", "Vietnamese"),
                                               selected = "English",
                                               inline = T)),
-      tabPanel("Climate", checkboxGroupInput("weatype",
+      tabPanel("Climate",  checkboxGroupInput("weatype",
                                              "Climate Type",
                                              choices = c(levels(factor(df.clean3$Climate))),
                                              inline =T)),
-      tabPanel("City Traits", 
+      tabPanel("City Traits",
+               
                column(3,
                       sliderInput("weal",
                                   "Wealth",
@@ -124,7 +140,8 @@ shinyUI(fluidPage(
                                   min = 0,
                                   max = 4,
                                   value = 0
-                      ))
+                      )),
+               textOutput("slid")
       )
     ),
   margin = "5%")
